@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import axios from 'axios';
+import router from './router'
 
 // Import CSS files
 import './assets/main.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 
-import router from './router'
 
 
 const app = createApp(App);

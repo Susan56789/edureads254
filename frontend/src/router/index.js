@@ -12,6 +12,13 @@ const routes = [
                 meta: { breadcrumb: 'Home', title: 'Home' }
             },
 
+            {
+                path: '/search',
+                name: 'SearchResult',
+                component: () => import('../components/SearchResults'),
+                meta: { breadcrumb: 'Search Result', title: 'SearchResult' }
+            }
+
 
         ]
     },
