@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const userRoutes = require('./routes/users');
-const bookRoutes = require('./routes/books');
+const userRoutes = require('./routes/users.js');
+const bookRoutes = require('./routes/books.js');
 const { errorHandler } = require('./middlewares/errorHandler');
 
 dotenv.config();
@@ -19,12 +19,7 @@ app.use('/api/books', bookRoutes);
 // Example error handling middleware
 app.use(errorHandler);
 
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-})
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log('MongoDB connected');
         app.listen(PORT, () => {
