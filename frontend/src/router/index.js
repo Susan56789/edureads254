@@ -1,18 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from '@/components/HomePage.vue';
+
 
 const routes = [
     {
         path: '/',
-        name: 'HomePage',
-        component: HomePage,
+        component: () => import('../components/PageLayout.vue'),
+        children: [
+            {
+                path: '',
+                component: () => import('../components/HomePage.vue'),
+                meta: { breadcrumb: 'Home', title: 'Home' }
+            },
+
+
+        ]
     },
 
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory(),
     routes,
+    mode: 'history',
 });
+
 
 export default router;
