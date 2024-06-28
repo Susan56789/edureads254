@@ -5,6 +5,6 @@
 <script>
 
 export default {
-    name: 'LoginPage'
+    name: 'BookCard'
 }
 </script>

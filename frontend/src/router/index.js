@@ -17,6 +17,30 @@ const routes = [
                 name: 'SearchResult',
                 component: () => import('../components/SearchResults'),
                 meta: { breadcrumb: 'Search Result', title: 'SearchResult' }
+            },
+            {
+                path: '/about',
+                name: 'AboutUs',
+                component: () => import('../components/AboutUs.vue'),
+                meta: { breadcrumb: 'About Us', title: 'About Us' }
+            },
+            {
+                path: '/contact',
+                name: 'ContactUs',
+                component: () => import('../components/ContactUs.vue'),
+                meta: { breadcrumb: 'Contact Us', title: 'Contact Us' }
+            },
+            {
+                path: '/login',
+                name: 'LoginPage',
+                component: () => import('../components/UserAuthentication/LoginPage.vue'),
+                meta: { breadcrumb: 'Login', title: 'Login' }
+            },
+            {
+                path: '/sign-up',
+                name: 'RegisterPage',
+                component: () => import('../components/UserAuthentication/RegisterPage.vue'),
+                meta: { breadcrumb: 'Sign Up', title: 'Sign Up' }
             }
 
 

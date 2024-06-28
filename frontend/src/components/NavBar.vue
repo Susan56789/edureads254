@@ -51,13 +51,13 @@
         <div class="flex-initial flex items-center">
             <div class="flex justify-end items-center relative">
                 <div class="hidden sm:flex mr-4 items-center">
-                    <a class="inline-block py-2 px-3 hover:bg-gray-200 rounded-full" href="#">
+                    <a class="inline-block py-2 px-3 hover:bg-gray-200 rounded-full" href="/">
                         <div class="flex items-center relative cursor-pointer whitespace-nowrap">Home</div>
                     </a>
-                    <a class="inline-block py-2 px-3 hover:bg-gray-200 rounded-full" href="#">
+                    <a class="inline-block py-2 px-3 hover:bg-gray-200 rounded-full" href="/about">
                         <div class="flex items-center relative cursor-pointer whitespace-nowrap">About Us</div>
                     </a>
-                    <a class="inline-block py-2 px-3 hover:bg-gray-200 rounded-full" href="#">
+                    <a class="inline-block py-2 px-3 hover:bg-gray-200 rounded-full" href="/contact">
                         <div class="flex items-center relative cursor-pointer whitespace-nowrap">Contact Us</div>
                     </a>
                 </div>
@@ -83,9 +83,9 @@
 
         <!-- mobile menu -->
         <div v-if="mobileMenuOpen" class="sm:hidden absolute top-20 left-0 right-0 bg-white shadow-lg">
-            <a class="block py-2 px-4 hover:bg-gray-200" href="#">Home</a>
-            <a class="block py-2 px-4 hover:bg-gray-200" href="#">About Us</a>
-            <a class="block py-2 px-4 hover:bg-gray-200" href="#">Contact Us</a>
+            <a class="block py-2 px-4 hover:bg-gray-200" href="/">Home</a>
+            <a class="block py-2 px-4 hover:bg-gray-200" href="/about">About Us</a>
+            <a class="block py-2 px-4 hover:bg-gray-200" href="/contact">Contact Us</a>
         </div>
     </nav>
 </template>
@@ -97,7 +97,7 @@ export default {
         return {
             searchQuery: '',
             mobileMenuOpen: false,
-            userLoggedIn: false, // This should be dynamically set based on your authentication logic
+            userLoggedIn: false,
         };
     },
     methods: {
