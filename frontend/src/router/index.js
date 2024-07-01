@@ -56,6 +56,19 @@ const routes = [
                 meta: { breadcrumb: 'FAQ', title: 'FAQ' }
             },
             {
+                path: '/books',
+                name: 'StorePage',
+                component: () => import('../components/StorePage/index.vue'),
+                meta: { breadcrumb: 'Books', title: 'Books' }
+            },
+            {
+                path: '/book/:id',
+                name: 'BookDetail',
+                component: () => import('../components/BookDetail/index.vue'),
+                props: true
+
+            },
+            {
                 path: '/:catchAll(.*)', // Catch-all route for undefined paths
                 name: 'NotFound',
                 component: () => import('../components/404Page.vue'),

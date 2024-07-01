@@ -1,14 +1,15 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const Book = require('../models/Book');
-const { protect } = require('../middlewares/auth');
+const { ObjectId } = require('mongodb');
+const { protect } = require('../middlewares/auth'); // Adjust path as necessary
+
 const router = express.Router();
 
 // Get all books
 router.get(
     '/',
     asyncHandler(async (req, res) => {
-        const books = await Book.find({});
+        const books = await req.app.locals.books.find({}).toArray();
         res.json(books);
     })
 );
@@ -17,12 +18,22 @@ router.get(
 router.get(
     '/:id',
     asyncHandler(async (req, res) => {
-        const book = await Book.findById(req.params.id);
-        if (book) {
-            res.json(book);
-        } else {
-            res.status(404);
-            throw new Error('Book not found');
+        const { id } = req.params;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'Invalid book ID format' });
+        }
+
+        try {
+            const book = await req.app.locals.books.findOne({ _id: new ObjectId(id) });
+            if (book) {
+                res.json(book);
+            } else {
+                res.status(404).json({ message: 'Book not found' });
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal server error' });
         }
     })
 );
@@ -33,16 +44,17 @@ router.post(
     protect,
     asyncHandler(async (req, res) => {
         const { title, author, description, pdfUrl, audioUrl } = req.body;
-        const book = new Book({
+        const newBook = {
             title,
             author,
             description,
             pdfUrl,
             audioUrl,
-        });
+            imageUrl
+        };
 
-        const createdBook = await book.save();
-        res.status(201).json(createdBook);
+        const result = await req.app.locals.books.insertOne(newBook);
+        res.status(201).json(result.ops[0]);
     })
 );
 
@@ -52,20 +64,22 @@ router.put(
     protect,
     asyncHandler(async (req, res) => {
         const { title, author, description, pdfUrl, audioUrl } = req.body;
-        const book = await Book.findById(req.params.id);
+        const book = await req.app.locals.books.findOne({ _id: new ObjectId(req.params.id) });
 
         if (book) {
-            book.title = title || book.title;
-            book.author = author || book.author;
-            book.description = description || book.description;
-            book.pdfUrl = pdfUrl || book.pdfUrl;
-            book.audioUrl = audioUrl || book.audioUrl;
+            const updatedBook = {
+                ...book,
+                title: title || book.title,
+                author: author || book.author,
+                description: description || book.description,
+                pdfUrl: pdfUrl || book.pdfUrl,
+                audioUrl: audioUrl || book.audioUrl,
+            };
 
-            const updatedBook = await book.save();
+            await req.app.locals.books.updateOne({ _id: new ObjectId(req.params.id) }, { $set: updatedBook });
             res.json(updatedBook);
         } else {
-            res.status(404);
-            throw new Error('Book not found');
+            res.status(404).json({ message: 'Book not found' });
         }
     })
 );
@@ -75,14 +89,12 @@ router.delete(
     '/:id',
     protect,
     asyncHandler(async (req, res) => {
-        const book = await Book.findById(req.params.id);
+        const result = await req.app.locals.books.deleteOne({ _id: new ObjectId(req.params.id) });
 
-        if (book) {
-            await book.remove();
+        if (result.deletedCount === 1) {
             res.json({ message: 'Book removed' });
         } else {
-            res.status(404);
-            throw new Error('Book not found');
+            res.status(404).json({ message: 'Book not found' });
         }
     })
 );

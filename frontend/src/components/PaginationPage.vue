@@ -2,8 +2,7 @@
     <div class="pagination">
         <button v-if="currentPage > 1" @click="paginate(currentPage - 1)">Previous</button>
         <button v-for="page in totalPages" :key="page" @click="paginate(page)"
-            :class="{ active: page === currentPage }">{{
-            page }}</button>
+            :class="{ active: page === currentPage }">{{ page }}</button>
         <button v-if="currentPage < totalPages" @click="paginate(currentPage + 1)">Next</button>
     </div>
 </template>
