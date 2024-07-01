@@ -1,7 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { ObjectId } = require('mongodb');
-const { protect } = require('../middlewares/auth'); // Adjust path as necessary
+const { protect } = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -38,19 +38,50 @@ router.get(
     })
 );
 
+// Get four related books by genre
+router.get(
+    '/related/:id',
+    asyncHandler(async (req, res) => {
+        const { id } = req.params;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'Invalid book ID format' });
+        }
+
+        try {
+            const book = await req.app.locals.books.findOne({ _id: new ObjectId(id) });
+
+            if (book) {
+                const relatedBooks = await req.app.locals.books
+                    .find({ genre: book.genre, _id: { $ne: new ObjectId(id) } })
+                    .limit(4)
+                    .toArray();
+
+                res.json(relatedBooks);
+            } else {
+                res.status(404).json({ message: 'Book not found' });
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    })
+);
+
 // Add a new book (protected route)
 router.post(
     '/',
     protect,
     asyncHandler(async (req, res) => {
-        const { title, author, description, pdfUrl, audioUrl } = req.body;
+        const { title, author, description, pdfUrl, audioUrl, imageUrl, genre } = req.body;
         const newBook = {
             title,
             author,
             description,
             pdfUrl,
             audioUrl,
-            imageUrl
+            imageurl,
+            genre
         };
 
         const result = await req.app.locals.books.insertOne(newBook);
@@ -63,7 +94,7 @@ router.put(
     '/:id',
     protect,
     asyncHandler(async (req, res) => {
-        const { title, author, description, pdfUrl, audioUrl } = req.body;
+        const { title, author, description, pdfUrl, audioUrl, imageUrl, genre } = req.body;
         const book = await req.app.locals.books.findOne({ _id: new ObjectId(req.params.id) });
 
         if (book) {
@@ -74,6 +105,8 @@ router.put(
                 description: description || book.description,
                 pdfUrl: pdfUrl || book.pdfUrl,
                 audioUrl: audioUrl || book.audioUrl,
+                imageUrl: imageUrl || book.imageUrl,
+                genre: genre || book.genre
             };
 
             await req.app.locals.books.updateOne({ _id: new ObjectId(req.params.id) }, { $set: updatedBook });
