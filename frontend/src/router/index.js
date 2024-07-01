@@ -59,16 +59,18 @@ const routes = [
                 path: '/:catchAll(.*)', // Catch-all route for undefined paths
                 name: 'NotFound',
                 component: () => import('../components/404Page.vue'),
-                meta: { breadcrumb: 'FAQ', title: 'FAQ' }
+                meta: { breadcrumb: '404', title: '404' }
+            },
+            {
+                path: '/admin',
+                component: () => import('../components/AdminDashboard/AdminLogin.vue'),
+                meta: { breadcrumb: 'Admin Login', title: 'Admin Login' }
             },
 
 
         ]
     },
-    {
-        path: '/admin',
-        component: () => import('../components/AdminDashboard/AdminLogin.vue')
-    },
+
 
     {
         path: '/adminpage/dashboard',
@@ -89,31 +91,38 @@ const routes = [
         children: [
             {
                 path: '',
-                component: () => import('../components/AdminDashboard/index.vue')
+                component: () => import('../components/AdminDashboard/index.vue'),
+                meta: { breadcrumb: 'Dashboard', title: 'Dashboard' }
             },
 
             {
                 path: '/admin-profile',
-                component: () => import('../components/AdminDashboard/AdminProfile.vue')
+                component: () => import('../components/AdminDashboard/AdminProfile.vue'),
+                meta: { breadcrumb: 'Profile', title: 'Profile' }
             },
             {
                 path: '/admin-settings',
-                component: () => import('../components/AdminDashboard/AdminSettings.vue')
+                component: () => import('../components/AdminDashboard/AdminSettings.vue'),
+                meta: { breadcrumb: 'Settings', title: 'Settings' }
             }, {
                 path: '/users',
-                component: () => import('../components/AdminDashboard/NewUsers.vue')
+                component: () => import('../components/AdminDashboard/NewUsers.vue'),
+                meta: { breadcrumb: 'Users', title: 'Users' }
             },
             {
                 path: '/orders',
-                component: () => import('../components/AdminDashboard/NewOrders.vue')
+                component: () => import('../components/AdminDashboard/NewOrders.vue'),
+                meta: { breadcrumb: 'Orders', title: 'Orders' }
             },
             {
                 path: '/transactions',
-                component: () => import('../components/AdminDashboard/TransactionSummary.vue')
+                component: () => import('../components/AdminDashboard/TransactionSummary.vue'),
+                meta: { breadcrumb: 'Transactions', title: 'Transactions' }
             },
             {
                 path: '/uploads',
-                component: () => import('../components/AdminDashboard/BookUpload.vue')
+                component: () => import('../components/AdminDashboard/BookUpload.vue'),
+                meta: { breadcrumb: 'Uploads', title: 'Uploads' }
             },
         ]
 
