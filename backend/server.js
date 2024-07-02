@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const userRoutes = require('./routes/users.js');
 const bookRoutes = require('./routes/books.js');
+const authRoutes = require('./routes/admin.js');
 const { errorHandler } = require('./middlewares/errorHandler');
 const jwt = require('jsonwebtoken');
 
@@ -33,22 +34,6 @@ app.get("/", (req, res) => {
     res.send("Welcome to EduReads254 Backend!");
 });
 
-// Authentication Middleware
-const authenticate = (req, res, next) => {
-    try {
-        const authHeader = req.headers.authorization;
-        const token = authHeader && authHeader.split(' ')[1];
-        if (!token) return res.status(401).json({ message: 'No token provided' });
-
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-            if (err) return res.status(400).json({ message: 'Invalid token' });
-            req.user = decoded;
-            next();
-        });
-    } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
-    }
-};
 
 // Connect to the database and initialize collections
 const run = async () => {
@@ -59,6 +44,7 @@ const run = async () => {
         const database = client.db("edureads254");
         const books = database.collection("books");
         const users = database.collection("users");
+        const admins = database.collection("admins");
         const bucket = new GridFSBucket(database, {
             bucketName: 'images'
         });
@@ -67,10 +53,12 @@ const run = async () => {
         // Set locals for collections
         app.locals.books = books;
         app.locals.users = users;
+        app.locals.admins = admins;
 
         // Route usage
         app.use('/api/users', userRoutes);
         app.use('/api/books', bookRoutes);
+        app.use('/api/auth', authRoutes);
 
         // Error handling middleware
         app.use(errorHandler);

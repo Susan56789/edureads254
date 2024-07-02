@@ -86,7 +86,11 @@ const routes = [
                 component: () => import('../components/AdminDashboard/AdminLogin.vue'),
                 meta: { breadcrumb: 'Admin Login', title: 'Admin Login' }
             },
-
+            {
+                path: '/password-reset',
+                component: () => import('../components/AdminDashboard/ResetPassword.vue'),
+                meta: { breadcrumb: 'Reset Password', title: 'Reset Password' }
+            },
 
         ]
     },

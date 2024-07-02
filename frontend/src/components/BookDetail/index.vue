@@ -25,21 +25,12 @@
                     </div>
                 </div>
                 <div class="flex items-center justify-between mt-5">
-                    <span class="text-lg text-gray-900">{{ selectedFormat.toUpperCase() }}</span>
-                    <span class="text-3xl font-bold text-gray-900">{{ formatCurrency(selectedPrice) }}</span>
-                    <div>
-                        <button v-if="book.pdfUrl" @click="selectOption('pdf')"
-                            :class="{ 'bg-orange-800': selectedFormat === 'pdf' }"
-                            class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">PDF</button>
-                        <button v-if="book.audioUrl" @click="selectOption('audio')"
-                            :class="{ 'bg-orange-800': selectedFormat === 'audio' }"
-                            class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-2">Audio</button>
+                    <div v-if="book.pdfUrl">
+                        <a :href="book.pdfUrl" target="_blank" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Download PDF</a>
                     </div>
-                </div>
-                <div class="mt-5">
-                    <button @click="addToCart"
-                        class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add
-                        to Cart</button>
+                    <div v-if="book.audioUrl" class="ml-2">
+                        <a :href="book.audioUrl" target="_blank" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Download Audio</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -90,7 +81,6 @@ export default {
         return {
             book: null,
             relatedBooks: [],
-            selectedPrice: 100,
             loading: true,
             error: null,
             selectedFormat: 'pdf',
@@ -102,10 +92,6 @@ export default {
         await this.fetchRelatedBooks();
     },
     methods: {
-        formatCurrency(value) {
-            const numericValue = parseFloat(value);
-            return isNaN(numericValue) ? '-' : numericValue.toLocaleString('en-KE', { style: 'currency', currency: 'KES' });
-        },
         async fetchBookDetails() {
             this.loading = true;
             for (const apiUrl of this.apiUrls) {
@@ -139,13 +125,6 @@ export default {
             }
             this.loading = false;
             this.error = 'Error fetching related books from all sources.';
-        },
-        selectOption(format) {
-            this.selectedFormat = format;
-            this.selectedPrice = format === 'pdf' ? 100 : 300;
-        },
-        addToCart() {
-            alert(`${this.selectedFormat.toUpperCase()} added to cart`);
         },
         starClass(star) {
             return {
