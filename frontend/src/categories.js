@@ -2,7 +2,7 @@ export const categories = [
 
     {
         id: 1,
-        name: "Mystery & Crime",
+        name: "Mystery",
         imageUrl: "/assets/cat-1.png"
     },
     {
@@ -12,7 +12,7 @@ export const categories = [
     },
     {
         id: 3,
-        name: "Science Fiction & Fantasy",
+        name: "Science Fiction",
         imageUrl: "/assets/cat-3.png"
     },
     {

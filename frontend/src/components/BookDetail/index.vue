@@ -4,8 +4,7 @@
             <div class="w-16 h-16 border-4 border-orange-500 border-solid border-t-transparent rounded-full spin"></div>
         </div>
         <div v-if="error" class="text-red-500">{{ error }}</div>
-        <div v-if="!loading && !error && book.length > 0"
-            class="bg-white shadow-md rounded-lg w-full flex flex-col lg:flex-row">
+        <div v-if="!loading && !error && book" class="bg-white shadow-md rounded-lg w-full flex flex-col lg:flex-row">
             <router-link :to="`/book/${book._id}`" class="lg:w-1/2">
                 <img class="rounded-t-lg lg:rounded-tr-none lg:rounded-l-lg p-8" :src="book.imageurl" :alt="book.title">
             </router-link>
@@ -27,7 +26,7 @@
                 </div>
                 <div class="flex items-center justify-between mt-5">
                     <span class="text-lg text-gray-900">{{ selectedFormat.toUpperCase() }}</span>
-                    <span class="text-3xl font-bold text-gray-900">{{ selectedPrice }}</span>
+                    <span class="text-3xl font-bold text-gray-900">{{ formatCurrency(selectedPrice) }}</span>
                     <div>
                         <button v-if="book.pdfUrl" @click="selectOption('pdf')"
                             :class="{ 'bg-orange-800': selectedFormat === 'pdf' }"
@@ -48,7 +47,7 @@
             <h2 class="flex flex-row flex-nowrap items-center my-8">
                 <span class="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
                 <span
-                    class="flex-none block mx-4   px-4 py-2.5 text-xs leading-none font-medium uppercase bg-black text-white">
+                    class="flex-none block mx-4 px-4 py-2.5 text-xs leading-none font-medium uppercase bg-black text-white">
                     YOU MAY ALSO LIKE ...
                 </span>
                 <span class="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
@@ -59,15 +58,15 @@
                 </div>
             </div>
             <div v-if="error" class="text-red-500">{{ error }}</div>
-            <div v-if="!loading && !error && relatedBooks.length > 0">
+            <div v-if="!loading && !error && relatedBooks.length > 0"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div v-for="relatedBook in relatedBooks" :key="relatedBook._id"
-                    class="bg-white shadow-md rounded-lg mb-5 flex">
-                    <router-link :to="`/book/${relatedBook._id}`" class="flex w-full">
-                        <img class="rounded-t-lg p-4 w-1/3" :src="relatedBook.imageurl" :alt="relatedBook.title">
-                        <div class="px-5 py-4 w-2/3">
-                            <h4 class="text-gray-900 font-semibold text-lg tracking-tight">{{ relatedBook.title }}</h4>
-                            <p class="text-gray-600 mt-2">{{ relatedBook.author }}</p>
-                            <p class="text-gray-700 mt-2">Type: {{ relatedBook.type }}</p>
+                    class="bg-white shadow-md rounded-lg overflow-hidden flex flex-col">
+                    <router-link :to="`/book/${relatedBook._id}`" class="flex flex-col items-center">
+                        <img class="w-full h-auto" :src="relatedBook.imageurl" :alt="relatedBook.title">
+                        <div class="p-4 w-full text-center">
+                            <h3 class="text-gray-900 font-semibold text-lg">{{ relatedBook.title }}</h3>
+                            <p class="text-gray-600">{{ relatedBook.author }}</p>
                         </div>
                     </router-link>
                 </div>
@@ -103,29 +102,43 @@ export default {
         await this.fetchRelatedBooks();
     },
     methods: {
+        formatCurrency(value) {
+            const numericValue = parseFloat(value);
+            return isNaN(numericValue) ? '-' : numericValue.toLocaleString('en-KE', { style: 'currency', currency: 'KES' });
+        },
         async fetchBookDetails() {
+            this.loading = true;
             for (const apiUrl of this.apiUrls) {
                 try {
                     const response = await axios.get(`${apiUrl}/api/books/${this.id}`);
-                    this.book = response.data;
-                    return; // Exit loop if successful
+                    if (response.data) {
+                        this.book = response.data;
+                        this.loading = false;
+                        return;
+                    }
                 } catch (error) {
                     console.error(`Error fetching from ${apiUrl}:`, error);
                 }
             }
-            console.error('Error fetching book details from all sources.');
+            this.loading = false;
+            this.error = 'Error fetching book details from all sources.';
         },
         async fetchRelatedBooks() {
+            this.loading = true;
             for (const apiUrl of this.apiUrls) {
                 try {
                     const response = await axios.get(`${apiUrl}/api/books/related/${this.id}`);
-                    this.relatedBooks = response.data;
-                    return; // Exit loop if successful
+                    if (response.data) {
+                        this.relatedBooks = response.data;
+                        this.loading = false;
+                        return;
+                    }
                 } catch (error) {
                     console.error(`Error fetching from ${apiUrl}:`, error);
                 }
             }
-            console.error('Error fetching related books from all sources.');
+            this.loading = false;
+            this.error = 'Error fetching related books from all sources.';
         },
         selectOption(format) {
             this.selectedFormat = format;

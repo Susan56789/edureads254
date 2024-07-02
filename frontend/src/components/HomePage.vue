@@ -1,10 +1,9 @@
 <template>
   <div class="container mx-auto px-4">
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
-
       <h2 class="flex flex-row flex-nowrap items-center my-8">
         <span class="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
-        <span class="flex-none block mx-4   px-4 py-2.5 text-xs leading-none font-medium uppercase bg-black text-white">
+        <span class="flex-none block mx-4 px-4 py-2.5 text-xs leading-none font-medium uppercase bg-black text-white">
           NEW ARRIVALS
         </span>
         <span class="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
@@ -20,10 +19,9 @@
       </div>
     </section>
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
-
       <h2 class="flex flex-row flex-nowrap items-center my-8">
         <span class="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
-        <span class="flex-none block mx-4   px-4 py-2.5 text-xs leading-none font-medium uppercase bg-black text-white">
+        <span class="flex-none block mx-4 px-4 py-2.5 text-xs leading-none font-medium uppercase bg-black text-white">
           TOP CATEGORIES
         </span>
         <span class="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
@@ -33,9 +31,9 @@
         <div v-for="category in categories" :key="category.id"
           class="w-full bg-white rounded-lg p-12 flex flex-col justify-center items-center">
           <div class="mb-8">
-            <a href="#">
+            <router-link :to="{ name: 'GenrePage', params: { name: category.name } }">
               <img :src="category.imageUrl" :alt="category.name" class="w-full h-auto" />
-            </a>
+            </router-link>
           </div>
           <div class="p-6 flex-grow">
             <h4
@@ -51,7 +49,7 @@
 
 <script>
 import { categories } from '@/categories';
-import BookCard from './BookCard/index.vue'
+import BookCard from './BookCard/index.vue';
 import axios from 'axios';
 
 export default {
@@ -63,7 +61,7 @@ export default {
       apiUrls: ['http://localhost:5000/', 'https://edureads254.onrender.com/'],
       loading: true,
       error: null,
-    }
+    };
   },
   components: {
     BookCard
@@ -92,9 +90,7 @@ export default {
       this.loading = false;
     },
   }
-}
+};
 </script>
 
-<style scoped>
-/* Custom styles */
-</style>
+<style scoped></style>

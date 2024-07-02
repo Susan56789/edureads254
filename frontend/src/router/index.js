@@ -56,6 +56,13 @@ const routes = [
                 meta: { breadcrumb: 'FAQ', title: 'FAQ' }
             },
             {
+                path: '/genre/:name',
+                name: 'GenrePage',
+                component: () => import('../components/GenrePage.vue'),
+                props: true,
+                meta: { breadcrumb: 'Genre', title: 'Genre' }
+            },
+            {
                 path: '/books',
                 name: 'StorePage',
                 component: () => import('../components/StorePage/index.vue'),
