@@ -10,7 +10,9 @@
             <span class="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
         </h2>
 
-        <div v-if="loading" class="text-center">Loading...</div>
+        <div v-if="loading" class="flex items-center justify-center">
+            <div class="w-16 h-16 border-4 border-orange-500 border-solid border-t-transparent rounded-full spin"></div>
+        </div>
         <div v-if="error" class="text-red-500">{{ error }}</div>
         <div v-if="!loading && !error && paginatedBooks.length > 0"
             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
