@@ -5,14 +5,30 @@ const { protect } = require('../middlewares/auth');
 
 const router = express.Router();
 
-// Get all books
+// Get all books or search for books
 router.get(
     '/',
     asyncHandler(async (req, res) => {
-        const books = await req.app.locals.books.find({}).toArray();
+        const searchQuery = req.query.search;
+        const booksCollection = req.app.locals.books;
+
+        let books;
+        if (searchQuery) {
+            const searchRegex = new RegExp(searchQuery, 'i'); // Case-insensitive search
+            books = await booksCollection.find({
+                $or: [
+                    { title: { $regex: searchRegex } },
+                    { author: { $regex: searchRegex } }
+                ]
+            }).toArray();
+        } else {
+            books = await booksCollection.find({}).toArray();
+        }
+
         res.json(books);
     })
 );
+
 
 // Get a single book by ID
 router.get(

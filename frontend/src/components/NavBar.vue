@@ -20,7 +20,7 @@
                     <input v-model="searchQuery" @keyup.enter="performSearch" placeholder="Start your search"
                         class="flex items-center flex-grow-0 flex-shrink pl-2 relative w-60 border rounded-full px-1 py-1"
                         type="text" />
-                    <div class="flex items-center justify-center relative h-8 w-8 rounded-full">
+                    <div class="flex items-center justify-center relative h-8 w-8 rounded-full" @click="performSearch">
                         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
                             role="presentation" focusable="false"
                             style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;">
@@ -104,6 +104,7 @@ export default {
         performSearch() {
             // Navigate to the search results page with the search query as a parameter
             this.$router.push({ name: 'SearchResult', query: { q: this.searchQuery } });
+            this.searchQuery = ''
         },
         toggleMobileMenu() {
             this.mobileMenuOpen = !this.mobileMenuOpen;
