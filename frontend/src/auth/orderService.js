@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000'; // Update with your API URL
+const API_URL = 'https://edureads254.onrender.com';
 
 const getOrderListByEmail = (email) => {
     return axios.get(`${API_URL}/api/orders/email/${encodeURIComponent(email)}`)

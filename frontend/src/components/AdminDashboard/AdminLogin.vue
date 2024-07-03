@@ -78,27 +78,26 @@ export default {
         return {
             credentials: {
                 email: '',
-                pswd: '',
+                password: '',
             },
             errorMessage: ''
         };
     },
     methods: {
-        login() {
+        async login() {
             this.errorMessage = '';
             console.log('Sending login request with credentials:', this.credentials);
-            authService.login(this.credentials)
-                .then((response) => {
-                    console.log('Server Response:', response);
-                    if (response.success) {
-                        this.$router.push('/adminpage/dashboard');
-                    } else {
-                        this.errorMessage = 'Login failed: ' + response.message;
-                    }
-                })
-                .catch((error) => {
-                    this.errorMessage = 'Error during login: ' + error.message;
-                });
+            try {
+                const response = await authService.login(this.credentials);
+                console.log('Server Response:', response);
+                if (response.success) {
+                    this.$router.push('/adminpage/dashboard');
+                } else {
+                    this.errorMessage = 'Login failed: ' + response.message;
+                }
+            } catch (error) {
+                this.errorMessage = 'Error during login: ' + error.message;
+            }
         },
         redirectToPasswordReset() {
             this.$router.push('/password-reset');
