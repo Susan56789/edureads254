@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'http://localhost:5000';
 
 let logoutTimer;
 
@@ -16,9 +16,8 @@ const clearLogoutTimer = () => {
     }
 };
 
-
 const login = (credentials) => {
-    return axios.post(`${API_URL}/userverify`, credentials)
+    return axios.post(`${API_URL}/api/auth/login`, credentials)
         .then((response) => {
             const data = response.data;
 
@@ -36,12 +35,19 @@ const login = (credentials) => {
             }
 
             return data;
+        })
+        .catch((error) => {
+            console.error('Login error:', error);
+            throw error;
         });
 };
 
 const logout = () => {
     // Clear the token from local storage on logout
     localStorage.removeItem('token');
+
+    // Remove the authorization header
+    delete axios.defaults.headers.common['Authorization'];
 
     // Clear the logout timer
     clearLogoutTimer();
