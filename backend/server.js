@@ -7,7 +7,7 @@ const userRoutes = require('./routes/users.js');
 const bookRoutes = require('./routes/books.js');
 const authRoutes = require('./routes/admin.js');
 const { errorHandler } = require('./middlewares/errorHandler');
-const jwt = require('jsonwebtoken');
+
 
 dotenv.config();
 
@@ -45,9 +45,6 @@ const run = async () => {
         const books = database.collection("books");
         const users = database.collection("users");
         const admins = database.collection("admins");
-        const bucket = new GridFSBucket(database, {
-            bucketName: 'images'
-        });
         console.log("Collections initialized");
 
         // Set locals for collections

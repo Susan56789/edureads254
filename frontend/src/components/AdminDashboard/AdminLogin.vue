@@ -11,7 +11,7 @@
                     <input v-model="credentials.email" type="text"
                         class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
                     <label class="font-semibold text-sm text-gray-600 pb-1 block">Password</label>
-                    <input v-model="credentials.pswd" type="password"
+                    <input v-model="credentials.password" type="password"
                         class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
                     <button @click="login" type="button"
                         class="transition duration-200 bg-red-500 hover:bg-red-600 focus:bg-red-700 focus:shadow-sm focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
@@ -88,7 +88,9 @@ export default {
             this.errorMessage = '';
             console.log('Sending login request with credentials:', this.credentials);
             try {
-                const response = await authService.login(this.credentials);
+                // Add token to headers
+                const token = 'your-token-here'; // Replace with actual token retrieval logic
+                const response = await authService.login(this.credentials, token);
                 console.log('Server Response:', response);
                 if (response.success) {
                     this.$router.push('/adminpage/dashboard');

@@ -12,11 +12,13 @@ router.post('/login', login);
 router.post(
     '/request-password-reset',
     asyncHandler(async (req, res) => {
+        console.log('Request received for password reset');
         const { email } = req.body;
         const usersCollection = req.app.locals.users;
 
         const user = await usersCollection.findOne({ email });
         if (!user) {
+            console.log('Email not found');
             return res.status(404).json({ message: 'Email not found' });
         }
 
@@ -45,8 +47,10 @@ router.post(
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
+                console.log('Error sending email:', error);
                 return res.status(500).json({ message: 'Error sending email' });
             }
+            console.log('Reset token sent to email');
             res.status(200).json({ message: 'Reset token sent to email' });
         });
     })
